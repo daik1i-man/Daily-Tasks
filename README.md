@@ -1,11 +1,8 @@
-![Main-page](https://github.com/daikii-man/Daily-Tasks/assets/138476853/a1b8be7a-cc44-4932-a20f-93fa29bc356b)
+# React + Vite
 
-# Daily Tasks
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-> Daily Tasks is a test project of the bootcamp at Astrum IT-Academy.
+Currently, two official plugins are available:
 
-# Technologies used in the project :
-
-- React + Vite
-- Tailwindcss
-- Express js
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
