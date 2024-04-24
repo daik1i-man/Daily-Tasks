@@ -49,8 +49,8 @@ async function sendVerificationEmail(email, token) {
       from: "no-reply@example.com",
       to: email,
       subject: "Email Verification",
-      text: `Please click the following link to verify your email: http://localhost:4089/user/verification/${token}`,
-      html: `<p>Please click the following link to verify your email: <a href="http://localhost:4089/user/verification/${token}">Verify Email</a></p>`,
+      text: `Please click the following link to verify your email: http://localhost:3000/user/verification/${token}`,
+      html: `<p>Please click the following link to verify your email: <a href="http://localhost:3000/user/verification/${token}">Verify Email</a></p>`,
     };
     try {
       await transporter.sendMail(mailOptions);
