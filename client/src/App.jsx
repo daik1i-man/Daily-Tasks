@@ -19,7 +19,9 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/user/message" element={<UserMessagePage />} />
-          
+          <Route >
+
+          </Route>
         </Routes>
       </Suspense>
     </>

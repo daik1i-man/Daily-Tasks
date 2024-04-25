@@ -4,18 +4,23 @@ const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const db = require("../model/db.js");
-require("dotenv").config();
-
+const dotenv = require("dotenv");
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
-  service: "smtp-relay.brevo.com",
+  host: "smtp-relay.brevo.com",
+  service: "brevo",
   port: 587,
   secure: false,
   auth: {
-    user: "abduhakimovabdushukur@gmail.com",
+    user: "axurshidbek2005@gmail.com",
     pass: process.env.PASS,
   },
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
+
 
 router.post("/signup", async (req, res) => {
   const { username, email } = req.body;
@@ -26,17 +31,22 @@ router.post("/signup", async (req, res) => {
     );
     if (users.rows.length > 0) {
       for (i = 0; i < users.rows.length; i++) {
-        if (username === users.rows[i].username &&email === users.rows[i].email){
+        if (
+          username === users.rows[i].username &&
+          email === users.rows[i].email
+        ) {
           res.status(409).json({ message: "User already exists" });
           return;
         }
       }
     } else {
       const verificationToken = crypto.randomBytes(32).toString("hex");
-      const response = await db.query("INSERT INTO users (username, email, verified, verification_token) VALUES ($1, $2, false, $3) RETURNING *",[username, email, verificationToken]);
+      const response = await db.query(
+        "INSERT INTO users (username, email, verified, verification_token) VALUES ($1, $2, false, $3) RETURNING *",
+        [username, email, verificationToken]
+      );
       await sendVerificationEmail(email, verificationToken);
       res.cookie("user_email", response.rows[0].email);
-      res.redirect("/user/verification");
     }
   } catch (err) {
     console.error("Error during signup:", err);
@@ -45,21 +55,20 @@ router.post("/signup", async (req, res) => {
 });
 
 async function sendVerificationEmail(email, token) {
-    const mailOptions = {
-      from: "no-reply@example.com",
-      to: email,
-      subject: "Email Verification",
-      text: `Please click the following link to verify your email: http://localhost:3000/user/verification/${token}`,
-      html: `<p>Please click the following link to verify your email: <a href="http://localhost:3000/user/verification/${token}">Verify Email</a></p>`,
-    };
-    try {
-      await transporter.sendMail(mailOptions);
-      console.log(`Verification email sent to: ${email}`);
-    } catch (error) {
-      console.error("Error sending verification email:", error);
-    }
+  const mailOptions = {
+    from: "axurshidbek2005@gmail.com",
+    to: email,
+    subject: "Email Verification",
+    text: `Please click the following link to verify your email: http://localhost:3000/user/verification/${token}`,
+    html: `<p>Please click the following link to verify your email: <a href="http://localhost:3000/user/verification/${token}">Verify Email</a></p>`,
+  };
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Verification email sent to: ${email}`);
+  } catch (error) {
+    console.error("Error sending verification email:", error);
+  }
 }
-  
 
 router.get("/verification/:token", async (req, res) => {
   const token = req.params.token;

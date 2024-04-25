@@ -44,7 +44,7 @@ export default function RegisterPage() {
         if (userEmail !== '' && userEmail.endsWith("@gmail.com")) {
             setUserEmailError('');
         }
-        if (userName !== '' && userEmail !== '' && userEmail.endsWith("@gmail.com")) {
+        if (userName !== '' && userEmail !== '') {
             setCheckDatas(true);
         }
         else {
@@ -57,8 +57,8 @@ export default function RegisterPage() {
         email: userEmail,
     }
 
-    const SetData = () => {
-        axios.post("http://localhost:3000/user/signup", userDatas)
+    const SetData = async () => {
+        await axios.post("http://localhost:3000/user/signup", userDatas)
             .then(response => {
                 console.log(response.data);
                 setUserName('');
