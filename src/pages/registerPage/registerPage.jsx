@@ -3,6 +3,7 @@ import { Typography, Button, Alert } from "@material-tailwind/react";
 import ModalComponent from "../../components/modalComponent/modalComponent";
 import { ModalContext } from "../../provider/provider";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function RegisterPage() {
     const [userName, setUserName] = useState('');
@@ -37,7 +38,7 @@ export default function RegisterPage() {
     }
 
     useEffect(() => {
-        if (userName !== '') {
+        if (userName !== '' && userName.length > 5) {
             setUserNameError('');
         }
         if (userEmail !== '' && userEmail.endsWith("@gmail.com")) {
@@ -51,10 +52,22 @@ export default function RegisterPage() {
         }
     }, [userName, userEmail])
 
+    const userDatas = {
+        name: userName,
+        email: userEmail,
+    }
+
     const SetData = () => {
-        setUserName('');
-        setUserEmail('');
-        setOpenModal(true);
+        axios.post("http://localhost:3000/user/signup", userDatas)
+            .then(response => {
+                console.log(response.data);
+                setUserName('');
+                setUserEmail('');
+                setOpenModal(true);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     return (
