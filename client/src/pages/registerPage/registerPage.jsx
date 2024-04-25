@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Typography, Button, Alert } from "@material-tailwind/react";
+import { useContext, useEffect, useState } from "react";
+import { Typography, Button } from "@material-tailwind/react";
 import ModalComponent from "../../components/modalComponent/modalComponent";
 import { ModalContext } from "../../provider/provider";
 import { Link } from "react-router-dom";
