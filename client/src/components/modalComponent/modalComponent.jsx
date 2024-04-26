@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Dialog } from "@material-tailwind/react";
 import { BadgeCheck } from 'lucide-react'
-import { ModalContext } from "../../provider/provider";
+import { ModalContext } from "../../Contexts/ActionsContext";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function ModalComponent() {
