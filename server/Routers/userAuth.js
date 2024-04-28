@@ -1,107 +1,60 @@
+
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const db = require("../model/db.js");
-const dotenv = require("dotenv");
-dotenv.config();
+const SibApiV3Sdk = require('sib-api-v3-sdk');
 
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  service: "brevo",
-  port: 587,
-  secure: false,
-  auth: {
-    user: "axurshidbek2005@gmail.com",
-    pass: process.env.PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
+const defaultClient = SibApiV3Sdk.ApiClient.instance;
+const apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
+
+async function createUser({ username, email, verificationToken }) {
+  const response = await db.query("INSERT INTO users (username, email, verified, verification_token) VALUES ($1, $2, false, $3) RETURNING *", [username, email, verificationToken]);
+  return response.rows[0];
+}
+
+async function userExists(username, email) {
+  const users = await db.query("SELECT * FROM users WHERE username = $1 OR email = $2", [username, email]);
+  return users.rows.some(user => user.username === username && user.email === email);
+}
+const sender ={
+    email:"abduhakimovabdushukur0615@gmail.com",
+    name:"netrunners"
+};
 
 
 router.post("/signup", async (req, res) => {
   const { username, email } = req.body;
+  const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi()
   try {
-    const users = await db.query(
-      "SELECT * FROM users WHERE username = $1 OR email = $2",
-      [username, email]
-    );
-    if (users.rows.length > 0) {
-      for (i = 0; i < users.rows.length; i++) {
-        if (
-          username === users.rows[i].username &&
-          email === users.rows[i].email
-        ) {
-          res.status(409).json({ message: "User already exists" });
-          return;
-        }
-      }
-    } else {
-      const verificationToken = crypto.randomBytes(32).toString("hex");
-      const response = await db.query(
-        "INSERT INTO users (username, email, verified, verification_token) VALUES ($1, $2, false, $3) RETURNING *",
-        [username, email, verificationToken]
-      );
-      await sendVerificationEmail(email, verificationToken);
-      res.cookie("user_email", response.rows[0].email);
+    if (await userExists(username, email)) {
+      return res.status(409).json({ message: "User already exists" });
     }
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+    const user = await createUser({ username, email, verificationToken });
+    const verificationUrl = `http://localhost:3000/verification/${verificationToken}`;
+    const sendEmial =await apiInstance.sendTransacEmail({
+        sender,
+        to:email,
+        subject:"test",
+        textContent:"tesst content",
+        htmlContent:`<a href=${verificationUrl}>veriication</a>`
+    })
+    // res.cookie("user_email", user.email);
+    res.cookie("user_name", user.name);
+    res.redirect(`/verification/:${verificationToken}`);
+    return res.send(sendEmial)
   } catch (err) {
     console.error("Error during signup:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
-async function sendVerificationEmail(email, token) {
-  const mailOptions = {
-    from: "axurshidbek2005@gmail.com",
-    to: email,
-    subject: "Email Verification",
-    text: `Please click the following link to verify your email: http://localhost:3000/user/verification/${token}`,
-    html: `<p>Please click the following link to verify your email: <a href="http://localhost:3000/user/verification/${token}">Verify Email</a></p>`,
-  };
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log(`Verification email sent to: ${email}`);
-  } catch (error) {
-    console.error("Error sending verification email:", error);
-  }
-}
 
-router.get("/verification/:token", async (req, res) => {
-  const token = req.params.token;
-  try {
-    await verifyEmail(token);
-    res.send("asdfasf");
-  } catch (err) {
-    console.error("Error during email verification:", err);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
 
-async function verifyEmail(token) {
-  try {
-    const user = await db.query(
-      "SELECT * FROM users WHERE verification_token = $1",
-      [token]
-    );
-    if (user.rows.length > 0) {
-      await db.query("UPDATE users SET verified = true WHERE id = $1", [
-        user.rows[0].id,
-      ]);
-      await db.query(
-        "UPDATE users SET verification_token = NULL WHERE id = $1",
-        [user.rows[0].id]
-      );
-      return true;
-    } else {
-      return false;
-    }
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 module.exports = router;
+
