@@ -6,6 +6,7 @@ const cors = require("cors")
 const db = require("./model/db.js");
 
 const userAuth = require("./Routers/userAuth.js")
+const tasks = require("./Routers/tasksRouter.js")
 
 const PORT = process.env.PORT || 3000
 
@@ -34,6 +35,7 @@ app.use(session({
 }))
 
 app.use("/user", userAuth)
+app.use("/tasks", tasks)
 
 
 

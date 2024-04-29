@@ -36,17 +36,17 @@ router.post("/signup", async (req, res) => {
     const verificationToken = crypto.randomBytes(32).toString("hex");
     const user = await createUser({ username, email, verificationToken });
     const verificationUrl = `http://localhost:3000/verification/${verificationToken}`;
-    const sendEmial =await apiInstance.sendTransacEmail({
-        sender,
-        to:email,
-        subject:"test",
-        textContent:"tesst content",
-        htmlContent:`<a href=${verificationUrl}>veriication</a>`
-    })
+    // const sendEmial =await apiInstance.sendTransacEmail({
+    //     sender,
+    //     to:email,
+    //     subject:"test",
+    //     textContent:"tesst content",
+    //     htmlContent:`<a href=${verificationUrl}>veriication</a>`
+    // })
     // res.cookie("user_email", user.email);
-    res.cookie("user_name", user.name);
+    res.cookie("user_name", user.username);
     res.redirect(`/verification/:${verificationToken}`);
-    return res.send(sendEmial)
+    // return res.send(sendEmial)
   } catch (err) {
     console.error("Error during signup:", err);
     res.status(500).json({ message: "Internal server error" });
