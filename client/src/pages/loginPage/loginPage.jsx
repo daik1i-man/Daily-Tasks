@@ -7,7 +7,6 @@ export default function LoginPage() {
   const [userEmailError, setUserEmailError] = useState("");
   const [checkDatas, setCheckDatas] = useState(false);
 
-  
   const userEmailHandler = () => {
     if (userEmail === "") {
       setUserEmailError("Field input!");

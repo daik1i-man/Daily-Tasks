@@ -12,7 +12,7 @@ const UserAuthContextProvider = ({ children }) => {
   useEffect(() => {}, []);
   return (
     <UserAuthContext.Provider
-    // value={}
+    value={""}
     >
       {children}
     </UserAuthContext.Provider>

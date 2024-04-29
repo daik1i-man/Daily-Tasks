@@ -1,4 +1,5 @@
 import { Card, CardBody, CardHeader, List, ListItem } from "@material-tailwind/react";
+import Task from "../Task/Task";
 
 const TaskList = ({ TaskListData }) => {
   // TaskListData <== in this prop we'll recieve data for list and their tasks
@@ -11,7 +12,7 @@ const TaskList = ({ TaskListData }) => {
       <CardBody>
         {/* tasks in this place should be mappeed */}
         <List>
-          {/* <ListItem></ListItem> */}
+          <Task />
         </List>
       </CardBody>
     </Card>
