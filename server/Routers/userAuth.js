@@ -6,10 +6,18 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const db = require("../model/db.js");
 const SibApiV3Sdk = require('sib-api-v3-sdk');
+const nodemailer = require("nodemailer")
 
-const defaultClient = SibApiV3Sdk.ApiClient.instance;
-const apiKey = defaultClient.authentications['api-key'];
-apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com", 
+  port: 465, 
+  secure: true, 
+  auth: {
+    user: "netrunners.group@gmail.com",
+    pass: process.env.PASS, 
+  },
+});
 
 async function createUser({ username, email, verificationToken }) {
   const response = await db.query("INSERT INTO users (username, email, verified, verification_token) VALUES ($1, $2, false, $3) RETURNING *", [username, email, verificationToken]);
@@ -36,17 +44,15 @@ router.post("/signup", async (req, res) => {
     const verificationToken = crypto.randomBytes(32).toString("hex");
     const user = await createUser({ username, email, verificationToken });
     const verificationUrl = `http://localhost:3000/verification/${verificationToken}`;
-    // const sendEmial =await apiInstance.sendTransacEmail({
-    //     sender,
-    //     to:email,
-    //     subject:"test",
-    //     textContent:"tesst content",
-    //     htmlContent:`<a href=${verificationUrl}>veriication</a>`
-    // })
-    // res.cookie("user_email", user.email);
+    let info = await transporter.sendMail({
+      from: 'netrunners.group@gmail.com',
+      to: email,
+      subject: "Testing, testing, 123",
+      html: `<p><a href="${verificationUrl}">verification</a></p>`
+    });
+    console.log(info.messageId); 
     res.cookie("user_name", user.username);
     res.redirect(`/verification/:${verificationToken}`);
-    // return res.send(sendEmial)
   } catch (err) {
     console.error("Error during signup:", err);
     res.status(500).json({ message: "Internal server error" });
