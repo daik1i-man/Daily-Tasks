@@ -12,6 +12,7 @@ export default function RegisterPage() {
     const [userEmailError, setUserEmailError] = useState('');
     const [checkDatas, setCheckDatas] = useState(false);
     const { setOpenModal } = useContext(ModalContext);
+    const [loading, setLoading] = useState(false);
 
     const userNameHandler = () => {
         if (userName === '') {
@@ -58,6 +59,7 @@ export default function RegisterPage() {
     }
 
     const SetData = async () => {
+        setLoading(true);
         await axios.post("http://localhost:3000/user/signup", userDatas)
             .then(response => {
                 console.log(response.data);
@@ -65,16 +67,35 @@ export default function RegisterPage() {
                 setUserEmail('');
                 setOpenModal(true);
             })
-            .catch(error => {
-                console.log(error);
+            .catch(hato => {
+                console.log(hato);
+            })
+            .finally(() => {
+                setLoading(false);
             })
     }
 
     return (
         <section className="">
+            <header className='w-full h-20'>
+                <div className="max-w-7xl mx-auto ">
+                    <div className="flex justify-between items-center h-20 px-4">
+                        <Link to='/'>
+                            <div>
+                                <h1 className='text-3xl font-semibold'>🎯 Daily Tasks</h1>
+                            </div>
+                        </Link>
+                        <div>
+                            <Link to='/login'>
+                                <Button className='w-36'>Sign-in</Button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </header>
             <div
                 onClick={InputsHandler}
-                className="mx-auto items-center max-w-[27rem] my-16 border border-solid rounded-md py-4"
+                className="mx-auto items-center max-w-[27rem] my-24 border border-solid rounded-md py-4"
             >
                 <div className="p-1 px-3">
                     <Typography variant="h3" color="blue-gray" className="mb-2">

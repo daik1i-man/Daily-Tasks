@@ -11,7 +11,9 @@ export default withMT({
     fontFamily: {
       Kanit: "'Kanit', sans-serif",
     },
+
     extend: {},
   },
+
   plugins: [],
 });

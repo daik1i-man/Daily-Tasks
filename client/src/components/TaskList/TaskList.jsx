@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Card, CardBody, List } from "@material-tailwind/react";
-import { Check, EllipsisVertical, Plus, Trash2, X } from "lucide-react";
+import { Check, EllipsisVertical, Pencil, Plus, Trash2, X } from "lucide-react";
 
-const TaskList = ({ TaskListData, TaskName }) => {
+const TaskList = ({ TaskName }) => {
   const [active, setActive] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
@@ -33,13 +33,16 @@ const TaskList = ({ TaskListData, TaskName }) => {
       </div>
       <div className={`${isOpen ? 'block' : 'hidden'} w-36 bg-white shadow-md rounded-sm right-7 top-6 absolute transition-all z-20`}>
         <div className="w-full flex space-x-3 hover:bg-blue-gray-50 p-2 cursor-pointer text-red-400">
+          <Pencil className="w-3 h-3" />
+          <p className="text-xs">Edit</p>
+        </div>
+        <div className="w-full flex space-x-3 hover:bg-blue-gray-50 p-2 cursor-pointer text-red-400">
           <Trash2 className="w-3 h-3" />
           <p className="text-xs">Delete</p>
         </div>
       </div>
       <CardBody className="-mt-4">
         {/* tasks in this place should be mappeed */}
-        <List>{}</List>
         <List className="">
           <div className={`${active ? 'block' : 'hidden'} space-y-2 w-full`}>
             <textarea

@@ -5,7 +5,23 @@ import { Button } from '@material-tailwind/react'
 export default function MainPage() {
     return (
         <div className='w-full items-center'>
-            <div className="max-w-7xl items-center mx-auto py-52">
+            <header className='w-full h-20'>
+                <div className="max-w-7xl mx-auto ">
+                    <div className="flex justify-between items-center h-20 px-4">
+                        <Link to='/'>
+                            <div>
+                                <h1 className='text-3xl font-semibold'>🎯 Daily Tasks</h1>
+                            </div>
+                        </Link>
+                        <div>
+                            <Link to='/login'>
+                                <Button className='w-36'>Sign-in</Button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div className="max-w-7xl items-center mx-auto mt-56">
                 <div className="text-center">
                     <h1 className='text-8xl mx-auto'>
                         Daily Tasks

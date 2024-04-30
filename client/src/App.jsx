@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import IsLoader from "./components/isLoader/isLoader";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useSearchParams } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import ActionsProvider from "./Contexts/ActionsContext";
 
@@ -14,9 +14,10 @@ function App() {
   );
   // private routes
   const BoardLayout = lazy(() => import("./layouts/BoardLayout"));
-  const DailyEventPage = lazy(() =>
-    import("./pages/TaskPages/dailyEventPage")
-  );
+  const DailyEventPage = lazy(() => import("./pages/TaskPages/dailyEventPage"));
+  const MonthlyEventPage = lazy(() => import("./pages/TaskPages/monthlyEventPage"));
+  const WeeklyEventPage = lazy(() => import("./pages/TaskPages/weeklyEventPage"));
+
   return (
     <Router>
       <Suspense fallback={<IsLoader />}>
@@ -29,9 +30,10 @@ function App() {
             {/* //? this is a layout for daily, weekly and monthly tasks */}
             <Route path="/board" element={<BoardLayout />}>
               <Route path="/board/daily" element={<DailyEventPage />} index />
+              <Route path="/board/monthly" element={<MonthlyEventPage />} />
+              <Route path="/board/weekly" element={<WeeklyEventPage />} />
               {/* // todo: this routes should be added */}
               {/* <Route path="/board/weekly" element={<WeeklyEventPage />}  /> */}
-              {/* <Route path="/board/monthly" element={<MonthlyEventPage />}  /> */}
             </Route>
           </Routes>
         </ActionsProvider>

@@ -1,12 +1,12 @@
 import React from "react";
-import SliderComponent from "../../components/slider/sliderComponent";
+import MonthlySliderComponent from "../../components/monthlySliderComponent/monthlySliderComponent";
 import TaskListsComponent from "../../components/TaskListsComponent/TaskListsComponent";
 
 function MonthlyEventPage() {
     return (
         <div className="">
             <div className="slider-container mb-4 shadow-sm px-4 py-2 flex-wrap lg:items-center lg:justify-center justify-end gap-x-6">
-                <SliderComponent />
+                <MonthlySliderComponent />
             </div>
             <TaskListsComponent />
         </div>
