@@ -9,6 +9,7 @@ const insertTasks =  async (req, res) =>{
         console.log(insert);
     } catch (error) {
         console.log(error);
+        res.status(500).send("error accuring while inserting object")
     }
 }
 
