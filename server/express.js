@@ -6,6 +6,7 @@ const cors = require("cors")
 const db = require("./model/db.js");
 
 const userAuth = require("./Routers/userAuth.js")
+const tasks = require("./Routers/tasksRouter.js")
 
 const PORT = process.env.PORT || 3000
 
@@ -18,6 +19,8 @@ app.use(cors({
     origin: [
         'http://localhost:8080',
         'https://localhost:8080'
+      'http://localhost:8080',
+      'https://localhost:8080'
     ],
     credentials: true,
     exposedHeaders: ['set-cookie']
@@ -34,7 +37,7 @@ app.use(session({
 }))
 
 app.use("/user", userAuth)
-
+app.use("/tasks", tasks)
 
 
 app.get("/verification/:token", async (req, res) => {

@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
@@ -53,8 +52,10 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+const userAuth = require("../controller/userController")
 
-
+router.post("/signup", userAuth.signup);
+router.get("/verification/:token", userAuth.verification);
 
 module.exports = router;
 

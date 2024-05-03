@@ -20,8 +20,8 @@
     "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
     "nodemailer": "^6.9.13",
-    "nodemailer-mailgun-transport": "^2.1.5",
-    "pg": "^8.11.5"
+    "pg": "^8.11.5",
+    "sib-api-v3-sdk": "^8.5.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
