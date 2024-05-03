@@ -7,7 +7,7 @@ export default function LoginPage() {
   const [userEmailError, setUserEmailError] = useState("");
   const [checkDatas, setCheckDatas] = useState(false);
 
-  
+
   const userEmailHandler = () => {
     if (userEmail === "") {
       setUserEmailError("Field input!");
@@ -40,6 +40,22 @@ export default function LoginPage() {
 
   return (
     <section className="">
+      <header className='w-full h-20'>
+        <div className="max-w-7xl mx-auto ">
+          <div className="flex justify-between items-center h-20 px-4">
+            <Link to='/'>
+              <div>
+                <h1 className='text-3xl font-semibold'>🎯 Daily Tasks</h1>
+              </div>
+            </Link>
+            <div>
+              <Link to='/login'>
+                <Button className='w-36'>Sign-in</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </header>
       <div
         onClick={InputsHandler}
         className="mx-auto items-center max-w-[26rem] my-36 border border-solid rounded-md py-4"
