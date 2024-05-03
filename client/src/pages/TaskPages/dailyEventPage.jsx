@@ -1,7 +1,7 @@
 import { Typography } from "@material-tailwind/react";
-// we should use momentjs for working with time and date
+import { ListDropComponent } from '../../components/listDropComponent/listDropComponent';
 import moment from "moment";
-import TaskListsComponent from "../../components/TaskListsComponent/TaskListsComponent";
+// we should use momentjs for working with time and date
 
 const DailyEventPage = () => {
   // todo : call data from api (only daily)
@@ -16,9 +16,9 @@ const DailyEventPage = () => {
           Today {moment().format("DD.MM.YYYY")}
         </Typography>
       </div>
-      <div className="TaskLists xl:w-[850px] sm:w-full xl:columns-3 sm:columns-1 space-y-5 px-5">
+      <div className="TaskLists overflow-hidden">
         {/* // ? lists data should be mapped from server and rendered here */}
-        <TaskListsComponent />
+        <ListDropComponent />
       </div>
     </section>
   );

@@ -1,7 +1,6 @@
 import React from 'react'
-import Slider from 'react-slick';
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -23,6 +22,7 @@ function MonthlySliderComponent() {
             />
         </div>
     )
+
     const SamplePrevArrow = ({ onClick }) => (
         <div className="w-6 h-6 bg-white text-black left-2 top-2 z-10 text-center p-1 rounded-full cursor-pointer absolute"
             onClick={onClick}
@@ -35,9 +35,9 @@ function MonthlySliderComponent() {
 
     const Slide = ({ month }) => {
         return (
-            <div className={`${(month === new Date().toLocaleString('eng', { month: 'long' })) ? 'bg-black text-white' : ''} w-full py-2 items-center border border-solid text-center`}>
+            <div className={`${(month === new Date().toLocaleString('eng', { month: 'long' })) ? 'bg-black text-white' : ''} w-full items-center border border-solid text-center`}>
                 <Link to={``}>
-                    <div className="text-[14px]">
+                    <div className="p-2">
                         {month}
                     </div>
                 </Link>
@@ -57,7 +57,7 @@ function MonthlySliderComponent() {
         <>
             <div className="relative">
                 <Slider {...settings}
-                    className='w-full h-14 mx-auto'
+                    className='w-full mx-auto'
                 >
                     {Months.map((month, index) => (
                         <Slide

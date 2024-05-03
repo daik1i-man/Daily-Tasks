@@ -53,26 +53,21 @@ export default function RegisterPage() {
         }
     }, [userName, userEmail])
 
-    const userDatas = {
-        name: userName,
+    const userData = {
+        username: userName,
         email: userEmail,
     }
 
     const SetData = async () => {
-        setLoading(true);
-        await axios.post("http://localhost:3000/user/signup", userDatas)
-            .then(response => {
-                console.log(response.data);
-                setUserName('');
-                setUserEmail('');
-                setOpenModal(true);
-            })
-            .catch(hato => {
-                console.log(hato);
-            })
-            .finally(() => {
-                setLoading(false);
-            })
+        try {
+            const response = await axios.post("http://localhost:3000/user/signup", userData)
+                .then(() => {
+                    setOpenModal(true);
+                    console.log(response);
+                })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (

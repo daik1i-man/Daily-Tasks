@@ -10,12 +10,12 @@ const BoardLayout = () => {
     // we will use user context for checking session and auth status
     <UserAuthContextProvider>
       <Header />
-      <LogoutModal />
-      <AddSpecialDayModal />
       <section className="LayoutWrapper flex items-start">
         <Sidebar />
         <section className="PageWrapper w-[94%]">
           <Outlet />
+          <AddSpecialDayModal />
+          <LogoutModal />
         </section>
       </section>
     </UserAuthContextProvider>

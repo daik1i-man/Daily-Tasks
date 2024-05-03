@@ -4,6 +4,17 @@ import { openAddSpecialDayModalContext } from '../../Contexts/ActionsContext';
 
 export default function AddSpecialDayModal() {
     const { openAddSpecialDayModal, setOpenAddSpecialDayModal } = useContext(openAddSpecialDayModalContext);
+    const [date, setDate] = useState({});
+
+    const DateHandler = (e) => {
+        e.preventDefault();
+        if (e.target.value) {
+            setDate(e.target.value);
+        }
+        else {
+            console.log("Error!");
+        }
+    }
 
     const cancelButtonRef = useRef(null)
 
@@ -45,6 +56,7 @@ export default function AddSpecialDayModal() {
                                                 className='w-full mx-auto border p-1 px-2 rounded-md border-black'
                                                 type="date"
                                                 name='date'
+                                                onChange={(e) => DateHandler(e)}
                                             />
                                         </div>
                                         <div className="space-y-2">
