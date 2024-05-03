@@ -17,10 +17,8 @@ app.use(bodyParser.json())
 app.use(cookies())
 app.use(cors({
     origin: [
-        'http://localhost:8080',
-        'https://localhost:8080'
-      'http://localhost:8080',
-      'https://localhost:8080'
+        'http://localhost:5173',
+        'https://localhost:5173'
     ],
     credentials: true,
     exposedHeaders: ['set-cookie']
@@ -39,21 +37,6 @@ app.use(session({
 app.use("/user", userAuth)
 app.use("/tasks", tasks)
 
-
-app.get("/verification/:token", async (req, res) => {
-    const token = req.params.token;
-    try {
-        const user = await db.query("SELECT * FROM users WHERE verification_token = $1", [token]);
-        if (user.rows.length === 0) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        await db.query("UPDATE users SET verified = true, verification_token = NULL WHERE id = $1", [user.rows[0].id]);
-        res.send("Email verified successfully");
-    } catch (err) {
-        console.error("Error during email verification:", err);
-        res.status(500).json({ message: "Internal server error" });
-    }
-})
 app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
 })
