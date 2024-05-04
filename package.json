@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@headlessui/react": "^1.7.19",
+    "all": "^0.0.0",
+    "framer-motion": "^11.1.7",
+    "lucide-react": "^0.376.0",
+    "react-icons": "^5.1.0",
+    "react-multi-carousel": "^2.8.5",
+    "react-slick": "^0.30.2",
+    "slick-carousel": "^1.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7"
+  }
+}

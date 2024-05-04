@@ -2,16 +2,14 @@ import React from "react";
 import { Card, Typography, List, Avatar, Accordion, AccordionBody, PopoverContent, Popover, PopoverHandler, Input } from "@material-tailwind/react";
 import { CalendarDays, ChevronLeftIcon, ChevronRightIcon, Clock, LogOut, Menu, PlusIcon, SquareGanttChart, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ModalContext } from '../../Contexts/ActionsContext';
-import { Button, DayPicker } from "react-day-picker";
-import { format } from "date-fns";
+import { ModalContext, openAddSpecialDayModalContext } from '../../Contexts/ActionsContext';
 
 const Sidebar = () => {
   const [open, setOpen] = React.useState(true);
   const [openAccordion, setOpenAccordion] = React.useState(0);
   const [active, setActive] = React.useState(1);
   const { setOpenModal } = React.useContext(ModalContext);
-  const [date, setDate] = React.useState(null);
+  const { openAddSpecialDayModal, setOpenAddSpecialDayModal } = React.useContext(openAddSpecialDayModalContext);
 
   const activeHandler = (value) => setActive(active === value ? 0 : value);
 
@@ -33,7 +31,7 @@ const Sidebar = () => {
           />
         )}
       </div>
-      <Card className="h-screen w-full xl:max-w-[15rem]">
+      <Card className="h-[86.5vh] w-full xl:max-w-[15rem]">
         <div className="my-5">
           <Typography variant="h5" color="blue-gray" className={`${open ? 'block' : 'flex'} gap-x-3`}>
             <Avatar
@@ -61,7 +59,7 @@ const Sidebar = () => {
               <p className={`${open ? 'hidden' : 'block'}`}>Today's challenges</p>
             </div>
           </Link>
-          <Link to="" className={`${open ? 'w-[4.5rem]' : 'w-[15rem]'}`}>
+          <Link to="/board/weekly" className={`${open ? 'w-[4.5rem]' : 'w-[15rem]'}`}>
             <div
               onClick={() => activeHandler(2)}
               className={`flex gap-3 ${active === 2 ? 'bg-black p-2 text-white' : 'p-2'} ${open ? '' : 'px-6'}`}
@@ -72,7 +70,7 @@ const Sidebar = () => {
               <p className={`${open ? 'hidden' : 'block'}`}>Weekly tasks</p>
             </div>
           </Link>
-          <Link to="" className={`${open ? 'w-[4.5rem]' : 'w-[15rem]'}`}>
+          <Link to="/board/monthly" className={`${open ? 'w-[4.5rem]' : 'w-[15rem]'}`}>
             <div
               onClick={() => activeHandler(3)}
               className={`flex gap-3 ${active === 3 ? 'bg-black p-2 text-white' : 'p-2'} ${open ? '' : 'px-6'}`}
@@ -88,7 +86,7 @@ const Sidebar = () => {
             open={openAccordion === 1}
           >
             <div
-              onClick={() => handleOpen(1)}
+              onClick={() => setOpenAddSpecialDayModal(true)}
               className="flex gap-4"
             >
               <div className={`${open ? 'w-full justify-center mx-auto' : ''}`}>
