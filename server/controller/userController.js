@@ -35,7 +35,7 @@ const signup =  async (req, res) => {
     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi()
     try {
       if (await userExists(username, email)) {
-        return res.status(409).json({ message: "User already exists" });
+        res.redirect(`http://localhost:5173/board/daily`)
       }
       const verificationToken = crypto.randomBytes(32).toString("hex");
       const user = await createUser({ username, email, verificationToken });
