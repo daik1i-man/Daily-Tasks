@@ -1,19 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiPlus, FiTrash } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { FaFire } from "react-icons/fa";
 
 export const ListDropComponent = () => {
+
+    useEffect(() => {
+        const currentCookie = document.cookie;
+
+        const userDataCookies = currentCookie.split(';').find((cookie) => cookie).trim().startsWith('userData');
+
+    }, []);
+
     return (
-        <div className="">
+        <>
             <Board />
-        </div>
+        </>
     );
 };
 
 const Board = () => {
     const [cards, setCards] = useState([]);
-
+    const [taks, setTasks] = useState([]);
     return (
         <div className="xl:flex sm:block xl:w-full gap-3 xl:space-x-8 xl:space-y-0 sm:space-y-8 p-6">
             <Column
@@ -141,8 +149,10 @@ const Column = ({ title, cards, column, setCards }) => {
 
     const filteredCards = cards.filter((c) => c.column === column);
 
+
+
     return (
-        <div className="xl:w-56 border sm:w-full items-start border-neutral-700 bg-neutral-800 rounded-md p-2 px-3">
+        <div className="xl:w-56 border sm:w-full rounded-md p-2 px-3">
             <div className="mb-3 flex items-center justify-between">
                 <h3 className={`font-medium xl:text-base sm:text-[18px]`}>{title}</h3>
                 <span className="rounded text-sm text-neutral-400">
@@ -166,6 +176,7 @@ const Column = ({ title, cards, column, setCards }) => {
     );
 };
 
+
 const Card = ({ title, id, column, handleDragStart }) => {
     return (
         <>
@@ -175,9 +186,9 @@ const Card = ({ title, id, column, handleDragStart }) => {
                 layoutId={id}
                 draggable="true"
                 onDragStart={(e) => handleDragStart(e, { title, id, column })}
-                className="cursor-grab rounded border border-neutral-700 bg-neutral-800 p-3 active:cursor-grabbing"
+                className="cursor-grab rounded border border-neutral-700 bg-neutral-800 p-1.5 active:cursor-grabbing"
             >
-                <p className="text-sm text-neutral-100">{title}</p>
+                <p className="text-xs text-neutral-100">{title}</p>
             </motion.div>
         </>
     );
@@ -218,7 +229,7 @@ const BurnBarrel = ({ setCards }) => {
             onDrop={handleDragEnd}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
-            className={`grid h-36 w-36 place-content-center sm:float-end rounded-md border border-solid border-gray-900 text-3xl ${active
+            className={`grid h-28 w-32 place-content-center sm:float-end rounded-md border border-solid border-gray-300 text-3xl ${active
                 ? "border-red-800 bg-red-800/20 text-red-500"
                 : "border-neutral-500 bg-neutral-500/20 text-neutral-500 border border-solid"
                 }`}

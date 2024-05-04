@@ -62,11 +62,13 @@ export default function RegisterPage() {
         try {
             const response = await axios.post("http://localhost:3000/user/signup", userData)
                 .then(() => {
-                    setOpenModal(true);
                     console.log(response);
                 })
         } catch (error) {
             console.log(error);
+            setUserName('');
+            setUserEmail('');
+            setOpenModal(true);
         }
     }
 

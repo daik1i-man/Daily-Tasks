@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Avatar, Button } from '@material-tailwind/react'
 import { Link } from 'react-router-dom';
+import { UserAuthContext } from '../../Contexts/UserAuthContext';
 
 function Header() {
-    const [user, setUser] = React.useState(true);
+    const { user, setUser } = useContext(UserAuthContext);
     return (
         <header className='w-full h-20'>
             <div className="max-w-7xl mx-auto ">
                 <div className="flex justify-between items-center h-20 px-4">
-                    <Link to='/'>
+                    <Link to={`${user ? '/board/daily' : '/'}`}>
                         <div>
                             <h1 className='text-3xl font-semibold'>🎯 Daily Tasks</h1>
                         </div>
