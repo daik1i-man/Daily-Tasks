@@ -46,6 +46,10 @@ const signup = async (req, res) => {
             subject: `${username}. You have successfully registered on our website.`,
             html: `<p>You can now access your profile.</p>`,
             html: `<button style="background-color: #333; color: #fff; font-size: 10px; padding: 9px; border-radius: 5px;cursor: pointer; border: none; "><a href="${verificationUrl}">Go to profile</a></button>`,
+            from: 'netrunners.group@gmail.com',
+            to: email,
+            subject: "verify Email and redirect dashboard",
+            html: `<p><a href="${verificationUrl}">verify for switch dashboard</a></p>`
         });
         console.log(info.messageId);
         res.cookie("user_name", user.username);
@@ -65,6 +69,7 @@ const verification = async (req, res) => {
         }
 
         res.cookie("userData", `${user.rows[0].username}`);
+        res.cookie("userData", JSON.stringify(user.rows[0]));
         res.redirect(`http://localhost:5173/board/daily`);
         await db.query("UPDATE users SET verified = true, verification_token = NULL WHERE id = $1", [user.rows[0].id]);
 
@@ -80,7 +85,7 @@ const logout = (req, res) => {
 }
 
 const userName = (req, res) => {
-    const {user_name} = req.cookies
+    const { user_name } = req.cookies
     res.send(user_name)
 }
 
@@ -89,4 +94,9 @@ module.exports = {
     verification,
     logout,
     userName
+}
+
+module.exports = {
+    signup,
+    verification
 }

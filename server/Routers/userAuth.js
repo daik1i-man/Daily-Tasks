@@ -7,5 +7,4 @@ router.get("/verification/:token", userAuth.verification);
 router.get("/logout", userAuth.logout)
 router.get("/username", userAuth.userName)
 
-
 module.exports = router;

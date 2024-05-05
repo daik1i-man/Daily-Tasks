@@ -8,5 +8,5 @@ const db = new Pool({
     database: "bjeet2l1rpkjqzk2qrrc"
 })
 
-
 module.exports = db
+
