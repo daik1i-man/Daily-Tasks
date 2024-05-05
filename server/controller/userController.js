@@ -54,6 +54,23 @@ const signup = async (req, res) => {
         console.log(info.messageId);
         res.cookie("user_name", user.username);
         res.redirect(`/verification/:${verificationToken}`);
+
+      if (await userExists(username, email)) {
+        res.redirect(`http://localhost:5173/board/daily`)
+      }
+      const verificationToken = crypto.randomBytes(32).toString("hex");
+      const user = await createUser({ username, email, verificationToken });
+      const verificationUrl = `http://localhost:3000/user/verification/${verificationToken}`;
+      let info = await transporter.sendMail({
+        from: 'netrunners.group@gmail.com',
+        to: email,
+        subject: "verify Email and redirect dashboard",
+        html: `<p><a href="${verificationUrl}">verify for switch dashboard</a></p>`
+      });
+      console.log(info.messageId);
+      res.cookie("user_name", user.username);
+      res.redirect(`/verification/:${verificationToken}`);
+      
     } catch (err) {
         console.error("Error during signup:", err);
         res.status(500).json({ message: "Internal server error" });
