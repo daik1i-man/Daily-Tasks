@@ -1,7 +1,7 @@
 const db = require("../model/db.js");
 
 
-const insertTasks =  async (req, res) =>{
+const insertTasks = async (req, res) => {
     try {
         const insert = await db.query(`INSERT INTO tasks (description, task_date, user_name) VALUES ($1, CURRENT_DATE, $2) RETURNING *`, [req.body.description, req.cookies.user_name]);
 
@@ -26,7 +26,7 @@ const gettask = async (req, res) => {
 
 const update = async (req, res) => {
     try {
-        const update = await db.query(`UPDATE tasks SET description = $1, task_date = $2  WHERE id = $3`, [req.body.description , req.body.task_date , req.params.id ]);
+        const update = await db.query(`UPDATE tasks SET description = $1, task_date = $2  WHERE id = $3`, [req.body.description, req.body.task_date, req.params.id]);
         res.status(200).send("update tasks succesfuly")
         console.log(update);
     } catch (error) {
@@ -35,9 +35,9 @@ const update = async (req, res) => {
     }
 }
 
-const deletetask =  async (req, res) => {
+const deletetask = async (req, res) => {
     try {
-        const deleteTask = db.query(`DELETE FROM tasks WHERE id=$1`,[req.params.id]) 
+        const deleteTask = db.query(`DELETE FROM tasks WHERE id=$1`, [req.params.id])
         res.status(200).send("task deleted")
         console.log(deleteTask);
     } catch (error) {

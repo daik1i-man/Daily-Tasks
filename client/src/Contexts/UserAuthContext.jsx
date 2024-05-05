@@ -1,21 +1,26 @@
-import { createContext, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 
-const UserAuthContext = createContext(null);
+export const UserAuthContext = createContext();
 
-const UserAuthContextProvider = ({ children }) => {
+export default function UserAuthContextProvider({ children }) {
+  const [user, setUser] = useState(false);
 
-  /* 
-  ? in this context we will check users session with cookies and specific tokens, otherwise we will redirect to login page
-   */
+  useEffect(() => {
+    const allCookies = document.cookie;
 
-  useEffect(() => { }, []);
+    const userDataCookie = allCookies.split(';').find(cookie => cookie.trim().startsWith('userData'));
+
+    if (userDataCookie) {
+      setUser(true);
+    } else {
+      setUser(false);
+      console.log("User not found!");
+    }
+  }, [user])
+
   return (
-    <UserAuthContext.Provider
-    // value={}
-    >
+    <UserAuthContext.Provider value={{ user, setUser }}>
       {children}
     </UserAuthContext.Provider>
   );
 };
-
-export default UserAuthContextProvider;
